@@ -1,0 +1,85 @@
+﻿<div>
+    <p data-bind='ifnot: sections'><em>Loading...</em></p>
+    <form class="form-horizontal" data-bind='if: sections'>
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="text-center">БИЗНЕС – ЛАНЧ на <span><input class="input-lg" type="date" data-bind='value: lunchDate'></span></h2>
+                <h2 class="text-center">цена <span data-bind='if: editable'><input class="input-lg" maxlength="3" type="number" data-bind='value: price'></span> <span data-bind='ifnot: editable' ><span data-bind='text: price'></span> </span>рублей</h2>
+                <h3 class="text-center">Меню</h3>
+            </div>
+        </div>
+        <div class="row">
+            <br>
+
+            <div class="row" data-bind='if: editable'>
+                <div class="col-xs-12 col-xs-offset-9">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="btn button btn-sm" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Загрузить
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a data-bind='click: loadTemplate.bind($data)' href="#">Загрузить из предыдущего</a></li>
+                            <li><a data-bind='click: loadEmpty.bind($data)' href="#">Отчистить</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <div data-bind='foreach: sections'>
+                    <h4>
+                        <span data-bind='text: name'></span>
+                    </h4>
+                    <div class="form-group">
+                        <div data-bind='foreach: items'>
+                            <div class="row" data-bind='if: $parents[1].editable'>
+                                <div class="col-xs-12">
+                                    <div class="input-group" data-bind='css: { "has-error": (error) }'>
+                                        <span class="input-group-addon" data-bind='text: number' ></span>
+                                        <input type="text" class="form-control"  placeholder="Название блюда..." data-bind='value: name' >
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" data-bind='click: $parents[1].addEmptyItem.bind($data, $parent)'>
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                            </button>
+                                        </span>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" data-bind='click: $parents[1].removeItem.bind($parent, $data, $parent )'>
+                                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" data-bind='ifnot: $parents[1].editable'>
+                                <span data-bind='text: number'> </span>.
+                                <span data-bind='text: name'> </span>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="row" data-bind='if: editable'>
+                <div class="col-xs-3">
+                    <button class="btn btn-success btn-lg" data-bind='click: save.bind($data)'>Отправить</button>
+                </div>
+                <div  data-bind='if: (errors().length)' class="col-xs-5">
+                    <ul class="list-unstyled alert alert-danger fade in pull-left">
+                        <li data-bind='foreach: errors'>
+                            <span data-bind='text: $data'> </span>
+                        </li>
+                    </ul>
+                </div>
+                <div data-bind='if: success' class="col-xs-5">
+                    <span class="list-unstyled alert alert-success fade in pull-left">
+                        <span data-bind='text: success'> </span>
+                    </span>
+                </div>
+            </div>
+            <hr>
+           
+        </div>
+    </form>
+</div>
